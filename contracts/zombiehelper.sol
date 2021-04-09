@@ -1,44 +1,19 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 
-import "./zombiefeeding.sol";
+import "./zombiefactory.sol";
 
-contract ZombieHelper is ZombieFeeding {
+contract ZombieHelper is ZombieFactory {
     uint256 levelUpFee = 0.001 ether;
 
-    modifier aboveLevel(uint256 _level, uint256 _zombieId) {
-        require(zombies[_zombieId].level >= _level);
+    modifier onlyOwnerOf(uint256 _zombieId) {
+        require(msg.sender == zombieToOwner[_zombieId]);
         _;
     }
 
     function withdraw() external onlyOwner {
         address _owner = owner();
         address(uint160(_owner)).transfer(address(this).balance);
-    }
-
-    function setLevelUpFee(uint256 _fee) external onlyOwner {
-        levelUpFee = _fee;
-    }
-
-    function levelUp(uint256 _zombieId) external payable {
-        require(msg.value == levelUpFee);
-        zombies[_zombieId].level = zombies[_zombieId].level.add(1);
-    }
-
-    function changeName(uint256 _zombieId, string calldata _newName)
-        external
-        aboveLevel(2, _zombieId)
-        onlyOwnerOf(_zombieId)
-    {
-        zombies[_zombieId].name = _newName;
-    }
-
-    function changeDna(uint256 _zombieId, uint256 _newDna)
-        external
-        aboveLevel(20, _zombieId)
-        onlyOwnerOf(_zombieId)
-    {
-        zombies[_zombieId].dna = _newDna;
     }
 
     function getZombiesByOwner(address _owner)
