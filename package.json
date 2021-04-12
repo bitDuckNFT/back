@@ -1,0 +1,11 @@
+{
+  "name": "back-bitDuck",
+  "version": "1.0",
+  "main": "index.js",
+  "repository": "https://github.com/bitDuckNFT/back",
+  "author": "JavierCervilla <javier@cervilla.es>",
+  "license": "MIT",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.0.0"
+  }
+}
